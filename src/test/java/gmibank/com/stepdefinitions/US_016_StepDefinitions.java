@@ -32,9 +32,9 @@ public class US_016_StepDefinitions {
     Actions actions = new Actions(Driver.getDriver());
     Response response;
     Faker faker = new Faker();
-    Integer firstBalanceInCheckingAccount;
-    Integer secondBalanceInCheckingAccount;
-    Integer difference;
+    Integer theChekingAccountBeforeTransfer;
+    Integer theChekingAccountAfterTransfer;
+    Integer difference=theChekingAccountAfterTransfer-theChekingAccountBeforeTransfer;
 
     @Given("user goes to gmibank homepage")
     public void user_goes_to_gmibank_homepage() {
@@ -207,14 +207,13 @@ public class US_016_StepDefinitions {
 
     @Then("user store the balance of CHECKING account after Transfer")
     public void user_store_the_balance_of_CHECKING_account_after_Transfer() {
-        //response.then().body("balance[1]", equalTo(secondBalanceInCheckingAccount));
+        response.then().assertThat().body("balance",hasItems(theChekingAccountAfterTransfer));
 
     }
 
     @Then("finds the result of difference between first balance and second balance")
     public void finds_the_result_of_difference_between_first_balance_and_second_balance() {
-        //difference=firstBalanceInCheckingAccount-secondBalanceInCheckingAccount;
-        //System.out.println(difference);
+
     }
 
     @Then("user validate the result is equal to {string}")
