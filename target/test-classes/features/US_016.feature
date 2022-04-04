@@ -62,4 +62,4 @@ Feature: US_16 tests
     Given user set the url and generate the token for tranfers
     Then user store the balance of CHECKING account after Transfer
     Then finds the result of difference between first balance and second balance
-    Then user validate the result is equal to "1"
+    Then user validate the result is equal to 100

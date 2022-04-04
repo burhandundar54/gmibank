@@ -12,10 +12,11 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import io.restassured.path.json.JsonPath;
+
 import java.util.List;
+
 import static gmibank.com.utilities.ApiUtils.getRequest;
 import static gmibank.com.utilities.Authentication.generateToken;
-
 
 
 public class US_016_StepDefinitions {
@@ -25,9 +26,10 @@ public class US_016_StepDefinitions {
     Actions actions = new Actions(Driver.getDriver());
     Response response;
     Faker faker = new Faker();
-    Integer theChekingAccountBeforeTransfer;
-    Integer theChekingAccountAfterTransfer;
-//    Integer difference=theChekingAccountAfterTransfer-theChekingAccountBeforeTransfer;
+    int theChekingAccountBeforeTransfer;
+    int theChekingAccountAfterTransfer;
+    int count;
+    int difference;
 
     @Given("user goes to gmibank homepage")
     public void user_goes_to_gmibank_homepage() {
@@ -177,10 +179,26 @@ public class US_016_StepDefinitions {
 
     @Given("user set the url and generate the token for tranfers")
     public void userSetTheUrlAndGenerateTheTokenForTranfers() {
+
+        count++;
         response = getRequest(generateToken(ConfigurationReader.getProperty("customer_username"),
                         ConfigurationReader.getProperty("customer_password")),
                 ConfigurationReader.getProperty("api_getCustomerAccounts"));
         response.prettyPrint();
+        JsonPath json = response.jsonPath();
+        // Burda responsdan dönen degerleri json objesine atadik.
+        // Bu objeyle dönen responsun icindeki degerlere asagidaki gibi ulasabiliriz
+
+
+        if (count == 1) {//1. ve 2. requesten dönen balanclari kaydetmemiz icin count degiskeni
+            //ve if yapisi kullandik
+            theChekingAccountBeforeTransfer = json.getInt("balance[0]");
+
+        }
+        if (count == 2) {
+            theChekingAccountAfterTransfer = json.getInt("balance[0]");
+        }
+
 
     }
 
@@ -194,8 +212,8 @@ public class US_016_StepDefinitions {
     public void user_store_the_balance_of_CHECKING_account_before_Transfer() {
         // response.then().body("balance[1]",equalTo(firstBalanceInCheckingAccount));
         JsonPath jsonPath = response.jsonPath();
-        List<Integer> balanceList = jsonPath.getList("data.findAll{it.balance>0}.balance");
-        System.out.println("balanceList" + balanceList);
+        //   List<Integer> balanceList = jsonPath.getList("data.findAll{it.balance>0}.balance");
+        // System.out.println("balanceList" + balanceList);
     }
 
     @Then("user store the balance of CHECKING account after Transfer")
@@ -207,13 +225,14 @@ public class US_016_StepDefinitions {
     @Then("finds the result of difference between first balance and second balance")
     public void finds_the_result_of_difference_between_first_balance_and_second_balance() {
 
+        difference=theChekingAccountAfterTransfer-theChekingAccountBeforeTransfer;
     }
 
-    @Then("user validate the result is equal to {string}")
-    public void user_validate_the_result_is_equal_to(String string) {
-        // Assert.assertEquals(string,difference);
-    }
 
+    @Then("user validate the result is equal to {int}")
+    public void userValidateTheResultIsEqualTo(int expected) {
+        Assert.assertEquals(expected,difference);
+    }
 }
 
 
