@@ -7,22 +7,15 @@ import gmibank.com.utilities.Driver;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.restassured.response.Response;
-import io.restassured.response.ValidatableResponse;
 import org.junit.Assert;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
-
-import static io.restassured.RestAssured.given;
-
 import io.restassured.path.json.JsonPath;
-
 import java.util.List;
-
 import static gmibank.com.utilities.ApiUtils.getRequest;
 import static gmibank.com.utilities.Authentication.generateToken;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasItems;
+
 
 
 public class US_016_StepDefinitions {
@@ -34,7 +27,7 @@ public class US_016_StepDefinitions {
     Faker faker = new Faker();
     Integer theChekingAccountBeforeTransfer;
     Integer theChekingAccountAfterTransfer;
-    Integer difference=theChekingAccountAfterTransfer-theChekingAccountBeforeTransfer;
+//    Integer difference=theChekingAccountAfterTransfer-theChekingAccountBeforeTransfer;
 
     @Given("user goes to gmibank homepage")
     public void user_goes_to_gmibank_homepage() {
@@ -207,7 +200,7 @@ public class US_016_StepDefinitions {
 
     @Then("user store the balance of CHECKING account after Transfer")
     public void user_store_the_balance_of_CHECKING_account_after_Transfer() {
-        response.then().assertThat().body("balance",hasItems(theChekingAccountAfterTransfer));
+//        response.then().assertThat().body("balance",hasItems(theChekingAccountAfterTransfer));
 
     }
 

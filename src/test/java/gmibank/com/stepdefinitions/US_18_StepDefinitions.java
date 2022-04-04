@@ -23,13 +23,14 @@ public class US_18_StepDefinitions {
 
     @Given("user enters username and password")
     public void user_enters_username_and_password() {
-     us_18_page.username.sendKeys(ConfigurationReader.getProperty("admin_username"));
-     us_18_page.password.sendKeys(ConfigurationReader.getProperty("admin_password"));
+        us_18_page.username.sendKeys(ConfigurationReader.getProperty("admin_username"));
+        us_18_page.password.sendKeys(ConfigurationReader.getProperty("admin_password"));
     }
 
     @When("click on the signIn button")
     public void click_on_the_signIn_button() {
-      us_18_page.signInButton.click();
+
+        us_18_page.signInButton.click();
     }
 
     @And("US18 user clicks myOperations link")
@@ -41,6 +42,7 @@ public class US_18_StepDefinitions {
     public void userClicksManageCostomersLink() {
         us_18_page.manageCostumer.click();
     }
+
     @Given("ADMIN can select First Name, Last Name, Middle Initial, Email, Mobile Phone Nummer, Phone Nummer, Address,Date updated")
     public void adminCanSelectFirstNameLastNameMiddleInitialEmailMobilePhoneNummerPhoneNummerAddressDateUpdated() {
 
@@ -51,6 +53,7 @@ public class US_18_StepDefinitions {
             }
         }
     }
+
     @Given("ADMIN should show Edit Button and verify valid")
     public void adminShouldShowEditButtonAndVerifyValid() {
         ReusableMethods.waitFor(5);
